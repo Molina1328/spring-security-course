@@ -6,19 +6,22 @@ import java.math.BigDecimal;
 
 @Entity
 public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
+
     private BigDecimal price;
 
-    @Enumerated(EnumType.STRING) // se guarda el nombre de la enumeración y no 0 y 1
+    @Enumerated(EnumType.STRING)
     private ProductStatus status;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     public static enum ProductStatus{
-        ENABLED, DISABLE
+        ENABLED, DISABLED;
     }
 
     public Long getId() {
@@ -51,5 +54,13 @@ public class Product {
 
     public void setStatus(ProductStatus status) {
         this.status = status;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
