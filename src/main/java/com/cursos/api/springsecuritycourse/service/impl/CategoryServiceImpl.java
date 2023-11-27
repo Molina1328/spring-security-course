@@ -1,6 +1,7 @@
 package com.cursos.api.springsecuritycourse.service.impl;
 
 import com.cursos.api.springsecuritycourse.dto.SaveCategory;
+import com.cursos.api.springsecuritycourse.exceptions.ObjectNotFoundException;
 import com.cursos.api.springsecuritycourse.persistence.entity.Category;
 import com.cursos.api.springsecuritycourse.persistence.repository.CategoryRepository;
 import com.cursos.api.springsecuritycourse.service.CategoryService;
@@ -39,7 +40,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category updateOneById(Long categoryId, SaveCategory saveCategory) {
-        Category categoryFromDB = categoryRepository.findById(categoryId).get();
+        Category categoryFromDB = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ObjectNotFoundException("Category not found with id " + categoryId));
 
         categoryFromDB.setName(saveCategory.getName());
 
@@ -48,7 +50,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category disableOneById(Long categoryId) {
-        Category categoryFromDB = categoryRepository.findById(categoryId).get();
+        Category categoryFromDB = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ObjectNotFoundException("Category not found with id " + categoryId));
 
         categoryFromDB.setStatus(Category.CategoryStatus.DISABLED);
 
