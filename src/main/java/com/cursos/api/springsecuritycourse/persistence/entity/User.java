@@ -29,8 +29,8 @@ public class User implements UserDetails { // Se implementa de UserDetails para 
         if(role.getPermissions() == null) return null;
 
         return role.getPermissions().stream()
-                .map(each -> each.name())
-                .map(each -> new SimpleGrantedAuthority(each))
+                .map(each -> each.name())//Se mapea cada elemento de la lista de permisos al nombre del permiso
+                .map(each -> new SimpleGrantedAuthority(each)) //Se mapea cada nombre de permiso a un objeto SimpleGrantedAuthority. Esta clase es parte de Spring Security y representa una autoridad o rol.
                 //LO MISMO PERO CON UN SOLO MAP
 //                .map(each -> {
 //                    String permission = each.name();
