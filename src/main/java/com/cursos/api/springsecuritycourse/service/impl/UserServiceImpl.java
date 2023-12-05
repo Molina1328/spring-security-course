@@ -2,6 +2,7 @@ package com.cursos.api.springsecuritycourse.service.impl;
 
 import com.cursos.api.springsecuritycourse.dto.SaveUser;
 import com.cursos.api.springsecuritycourse.exceptions.InvalidPasswordException;
+import com.cursos.api.springsecuritycourse.exceptions.ObjectNotFoundException;
 import com.cursos.api.springsecuritycourse.persistence.entity.User;
 import com.cursos.api.springsecuritycourse.persistence.repository.UserRepository;
 import com.cursos.api.springsecuritycourse.persistence.util.Role;
@@ -25,7 +26,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registrOneCustomer(SaveUser newUser) {
         validatePassword(newUser); // valida si existe
-
+        if (userRepository.existsByUsername(newUser.getUsername())) {
+            throw new ObjectNotFoundException("Username already exists: " + newUser.getUsername());
+        }
         User user = new User(); // se crea un nuevo usuario
         user.setPassword(passwordEncoder.encode(newUser.getPassword())); // Se codifica la nueva contraseña
         user.setUsername(newUser.getUsername());
