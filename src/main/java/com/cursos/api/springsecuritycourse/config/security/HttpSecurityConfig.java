@@ -1,5 +1,6 @@
 package com.cursos.api.springsecuritycourse.config.security;
 
+import com.cursos.api.springsecuritycourse.config.security.filter.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity // se habilita la funcionalidad de seguridad web proporcionado de Spring Security
@@ -16,6 +18,8 @@ public class HttpSecurityConfig {
 
     @Autowired
     private AuthenticationProvider daoAuthProvider;
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     // Configuración del filtro de seguridad HTTP
     @Bean
@@ -29,6 +33,7 @@ public class HttpSecurityConfig {
 
                 // Configuración del proveedor de autenticación personalizado
                 .authenticationProvider(daoAuthProvider)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
                 // Configuración de autorizaciones para las solicitudes HTTP
                 .authorizeHttpRequests(authReqConfig -> {
