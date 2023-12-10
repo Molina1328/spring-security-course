@@ -2,7 +2,6 @@ package com.cursos.api.springsecuritycourse.config.security.filter;
 
 import com.cursos.api.springsecuritycourse.exceptions.ObjectNotFoundException;
 import com.cursos.api.springsecuritycourse.persistence.entity.User;
-import com.cursos.api.springsecuritycourse.persistence.entity.security.JwtToken;
 import com.cursos.api.springsecuritycourse.persistence.repository.security.JwtTokenRepository;
 import com.cursos.api.springsecuritycourse.service.UserService;
 import com.cursos.api.springsecuritycourse.service.auth.JwtService;
